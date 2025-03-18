@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Speech API | ASR Tools</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Web Speech API</h1>
+            <nav>
+                <a href="/" class="nav-link">Home</a>
+                <span class="nav-divider">|</span>
+                <span class="current-page">Web Speech API</span>
+            </nav>
+        </header>
+        
+        <main>
+            <div class="asr-implementation">
+                <div class="implementation-info">
+                    <p>Browser-native speech recognition using the Web Speech API.</p>
+                </div>
+                
+                <div class="controls">
+                    <button id="startRecording" class="button primary">Start Recording</button>
+                    <button id="stopRecording" class="button primary" disabled>Stop Recording</button>
+                </div>
+                
+                <div class="status-indicator">
+                    <div id="statusDot"></div>
+                    <span id="statusText">Ready</span>
+                </div>
+                
+                <div class="transcript-container">
+                    <h2>Transcript</h2>
+                    <textarea id="transcript" rows="10" placeholder="Your speech will appear here..."></textarea>
+                    
+                    <div class="buttons">
+                        <button id="copyTranscript" class="button secondary">Copy Text</button>
+                        <button id="clearTranscript" class="button secondary">Clear Text</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>&copy; 2023 ASR Tools Demo</p>
+        </footer>
+    </div>
+    
+    <script src="/js/web-speech-api.js"></script>
+</body>
+</html>
