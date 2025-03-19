@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const clearButton = document.getElementById('clearTranscript');
     const statusDot = document.getElementById('statusDot');
     const statusText = document.getElementById('statusText');
+    const translateArea = document.getElementById('translation');
 
      // Check if browser supports speech recognition
      if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
@@ -23,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Configure speech recognition
     recognition.continuous = true;       // Keep recording until stopped
     recognition.interimResults = true;   // Show interim results
-    recognition.lang = 'fr-FR';          // Set language (can be changed)
+    recognition.lang = 'en-EN';          // Set language (can be changed)
     
     let finalTranscript = '';
     
@@ -33,7 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
         
         for (let i = event.resultIndex; i < event.results.length; i++) {
             const transcript = event.results[i][0].transcript;
-            
             if (event.results[i].isFinal) {
                 finalTranscript += transcript + ' ';
             } else {
@@ -71,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
         statusText.textContent = 'Not listening';
         startButton.disabled = false;
         stopButton.disabled = true;
+       // callTranslateAPI();
     };
     
     // Button event listeners
@@ -105,3 +106,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }); 
     
 });
+
+async function callTranslateAPI(){
+    const text = document.getElementById('transcript').value;
+    const response = await fetch('/api/translate', {
+      method: 'POST',
+      body: JSON.stringify({
+        q: text,
+        source: 'en',
+        target: 'fr',
+        format: 'text'
+      }),
+      headers: { 'Content-Type': 'application/json' }
+    });
+    
+    const data = await response.json();
+    document.getElementById('translation').innerText = data.translatedText;
+  }
