@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
             statusText.textContent = 'No speech detected. Try again.';
         } else {
             statusText.textContent = `Error: ${event.error}`;
+            console.error('Speech recognition error:', event.error);
         }
         
         statusDot.classList.remove('recording');
@@ -107,19 +108,19 @@ document.addEventListener('DOMContentLoaded', () => {
     
 });
 
-async function callTranslateAPI(){
-    const text = document.getElementById('transcript').value;
-    const response = await fetch('/api/translate', {
-      method: 'POST',
-      body: JSON.stringify({
-        q: text,
-        source: 'en',
-        target: 'fr',
-        format: 'text'
-      }),
-      headers: { 'Content-Type': 'application/json' }
-    });
+// async function callTranslateAPI(){
+//     const text = document.getElementById('transcript').value;
+//     const response = await fetch('/api/translate', {
+//       method: 'POST',
+//       body: JSON.stringify({
+//         q: text,
+//         source: 'en',
+//         target: 'fr',
+//         format: 'text'
+//       }),
+//       headers: { 'Content-Type': 'application/json' }
+//     });
     
-    const data = await response.json();
-    document.getElementById('translation').innerText = data.translatedText;
-  }
+//     const data = await response.json();
+//     document.getElementById('translation').innerText = data.translatedText;
+//   }
