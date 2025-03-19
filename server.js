@@ -30,7 +30,7 @@ app.post('/api/translate', async (req, res) => {
     //   format: 'text'
     // });
     
-    res.json({ translatedText: 'The translated text will be available here' });
+    res.json({ translatedText: req.body.q + 'The translated text will be available here' });
   } catch (error) {
     console.error('Translation error:', error);
     res.status(500).json({ error: 'Translation failed' });

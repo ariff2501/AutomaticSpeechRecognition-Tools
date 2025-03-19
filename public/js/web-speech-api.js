@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const clearButton = document.getElementById('clearTranscript');
     const statusDot = document.getElementById('statusDot');
     const statusText = document.getElementById('statusText');
-    const translateArea = document.getElementById('translation');
+    // const translateArea = document.getElementById('translation');
 
      // Check if browser supports speech recognition
      if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Configure speech recognition
     recognition.continuous = true;       // Keep recording until stopped
     recognition.interimResults = true;   // Show interim results
-    recognition.lang = 'en-EN';          // Set language (can be changed)
+    recognition.lang = 'en-US';          // Set language (can be changed)
     
     let finalTranscript = '';
     
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
         statusText.textContent = 'Not listening';
         startButton.disabled = false;
         stopButton.disabled = true;
-       // callTranslateAPI();
+        callTranslateAPI();
     };
     
     // Button event listeners
@@ -108,19 +108,19 @@ document.addEventListener('DOMContentLoaded', () => {
     
 });
 
-// async function callTranslateAPI(){
-//     const text = document.getElementById('transcript').value;
-//     const response = await fetch('/api/translate', {
-//       method: 'POST',
-//       body: JSON.stringify({
-//         q: text,
-//         source: 'en',
-//         target: 'fr',
-//         format: 'text'
-//       }),
-//       headers: { 'Content-Type': 'application/json' }
-//     });
+async function callTranslateAPI(){
+    const text = document.getElementById('transcript').value;
+    const response = await fetch('/api/translate', {
+      method: 'POST',
+      body: JSON.stringify({
+        q: text,
+        source: 'en',
+        target: 'fr',
+        format: 'text'
+      }),
+      headers: { 'Content-Type': 'application/json' }
+    });
     
-//     const data = await response.json();
-//     document.getElementById('translation').innerText = data.translatedText;
-//   }
+    const data = await response.json();
+    document.getElementById('translation').innerText = data.translatedText;
+  }
