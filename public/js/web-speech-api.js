@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const clearButton = document.getElementById('clearTranscript');
     const statusDot = document.getElementById('statusDot');
     const statusText = document.getElementById('statusText');
+    const translateArea = document.getElementById('translation');
     // const translateArea = document.getElementById('translation');
 
      // Check if browser supports speech recognition
@@ -24,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Configure speech recognition
     recognition.continuous = true;       // Keep recording until stopped
     recognition.interimResults = true;   // Show interim results
-    recognition.lang = 'en-US';          // Set language (can be changed)
+    recognition.lang = 'fr-FR';          // Set language (can be changed)
     
     let finalTranscript = '';
     
@@ -72,7 +73,10 @@ document.addEventListener('DOMContentLoaded', () => {
         statusText.textContent = 'Not listening';
         startButton.disabled = false;
         stopButton.disabled = true;
-        callTranslateAPI();
+        //translate the transcript obtained from the transcriptArea
+        let textToTranslate = transcriptArea.value;
+        callTranslateAPI(textToTranslate).then(res => {document.getElementById('translation').innerText = res.translatedText;});
+       
     };
     
     // Button event listeners
@@ -104,17 +108,17 @@ document.addEventListener('DOMContentLoaded', () => {
     clearButton.addEventListener('click', () => {
         transcriptArea.value = '';
         finalTranscript = '';
+        translateArea.value ='';
     }); 
     
 });
 
-async function callTranslateAPI(){
-    const text = document.getElementById('transcript').value;
+async function callTranslateAPI(text){
     const response = await fetch('/api/translate', {
       method: 'POST',
       body: JSON.stringify({
         q: text,
-        source: 'en',
+        source: 'auto',
         target: 'fr',
         format: 'text'
       }),
@@ -122,5 +126,5 @@ async function callTranslateAPI(){
     });
     
     const data = await response.json();
-    document.getElementById('translation').innerText = data.translatedText;
+    return data;
   }

@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const axios = require('axios'); // Import Axios here
 
 const app = express();
 const port = 3000;
@@ -21,21 +22,24 @@ app.post('/api/translate', async (req, res) => {
   
   try {
     console.log('Received data:', req.body);
-    const { text, sourceLang, targetLang } = req.body;
+    const { q, source, target } = req.body;
     
-    // const response = await axios.post('https://libretranslate.com/translate', {
-    //   q: text,
-    //   source: sourceLang,
-    //   target: targetLang,
-    //   format: 'text'
-    // });
-    
-    res.json({ translatedText: req.body.q + 'The translated text will be available here' });
+    const response = await axios.post('http://127.0.0.1:5000/translate', {
+      text: q,
+      source: source,
+      target: target,
+      format: 'text'
+      // 'text': '안녕하세요.',  
+      // 'dest': 'en',       
+      // 'src': 'auto' 
+    });
+    console.log(response.data);
+    res.json({ translatedText: response.data.translatedText });
   } catch (error) {
     console.error('Translation error:', error);
     res.status(500).json({ error: 'Translation failed' });
   }
-});
+  });
 
 // Start the server
 app.listen(port, () => {
